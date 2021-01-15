@@ -1,37 +1,47 @@
-Welcome to Glitch
-=================
+Welcome to Code Haumana
+=======================
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+In this project each of you will have your own project file (i.e. `/haumana/your-name.js`) where you can create a p5.js sketch.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+To run your sketch click "🕶 Show" in the header, select the "Next to the Code" option, and then click the link to your page. Updates to your code will instantly refresh the page. To avoid having to constantly navigate back to your page, you can click the "Change URL" button at the top of the display and enter the path to your page (i.e. `/haumana/your-name.html`).
 
-Find out more [about Glitch](https://glitch.com/about).
+Please only edit _your own_ project files! Be respectful of your fellow students.
 
+P5.js
+-----
 
-Your Project
+P5.js is a Javascript library for drawing graphics in a web browser. It includes numerous functions for drawing 2d and 3d graphics, creating interactive controls, and getting user input. You can also use any standard browser Javascript capabilities alongside p5.js. For examples of the kinds of things you can do with p5.js take a look at the [OpenProcessing.org Gallery](https://openprocessing.org/browse/#).
+
+For help using the functions in the p5.js library see the [p5.js Reference](https://p5js.org/reference/).
+
+This Project
 ------------
 
 ### ← README.md
 
-That's this file, where you can tell people what your cool website does and how you built it.
+That's this file, where you can learn about this project.
 
 ### ← index.html
 
-Where you'll write the content of your website. 
+This page contains links to each student's sketch.
 
 ### ← style.css
 
-CSS files add styling rules to your content.
+This css file contains global styles for this project.
 
-### ← script.js
+### ← haumana/_template.html
 
-If you're feeling fancy you can add interactivity to your site with JavaScript.
+This is the template HTML file for each student's page. It should be duplicated for each student and updated with their name and the name of their javascript file.
+
+### ← haumana/_template.js
+
+This is the template JS file for each student's sketch. It should be duplicated for each student.
 
 ### ← assets
 
-Drag in `assets`, like images or music, to add them to your project
+Static files like images or music. Feel free to add files here to use them in your sketch. Just make sure they are 100% appropriate for school.
 
-Made by [Glitch](https://glitch.com/)
+Made with [Glitch](https://glitch.com/)
 -------------------
 
 \ ゜o゜)ノ

@@ -3,16 +3,20 @@ function sketch(p) {
   let gameState;
   let size = 5;
   let dirty = true;
-  let [windowWidth, windowHeight] = [600, 600];
+  // let [windowWidth, windowHeight] = [600, 600];
+  let bgImage;
+  
+  p.preload = function() {
+    bgImage = p.loadImage('https://cdn.glitch.com/0e291b8c-6059-4ca6-a0ae-84e67e1f94e7%2Fhibiscus.jpg?v=1610705583837');
+  }
   
   p.setup = function() {
-    p.createCanvas(windowWidth, windowHeight);
-    p.background(255);
+    p.createCanvas(p.windowWidth, p.windowHeight);
     p.noStroke();
 
     gameSize = {
-      height: Math.floor(windowHeight / 5),
-      width: Math.floor(windowWidth / 5)
+      height: Math.floor(p.windowHeight / 5),
+      width: Math.floor(p.windowWidth / 5)
     };
     gameState = [...Array(gameSize.height)].map(_ =>
       [...Array(gameSize.width)].map(_ => Math.round(Math.random()))
@@ -20,18 +24,19 @@ function sketch(p) {
   }
 
   p.draw = function() {
-    if (gameState) {
-      if (dirty) {
-        for (let row = 0; row < gameSize.height; row++) {
-          for (let col = 0; col < gameSize.width; col++) {
-            p.fill(gameState[row][col] ? 0 : 255);
-            p.square(col * 5, row * 5, 5);
-          }
+    gameState = [...Array(gameSize.height)].map(_ =>
+      [...Array(gameSize.width)].map(_ => Math.round(p.randomGaussian(0, 0.7)))
+    );
+    p.image(bgImage, 0, 0);
+    for (let row = 0; row < gameSize.height; row++) {
+      for (let col = 0; col < gameSize.width; col++) {
+        if (gameState[row][col]) {
+          p.fill(gameState[row][col] ? 0 : 255);
+          p.square(col * 5, row * 5, 5);
         }
-        dirty = false;
       }
-    } else {
-      console.log("missing gameState");
     }
+    p.noLoop();
+    window.setTimeout(() => p.loop(), 1000 / 12);
   }
 }
