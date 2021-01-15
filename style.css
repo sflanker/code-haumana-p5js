@@ -1,0 +1,15 @@
+/* CSS files add styling rules to your content */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans',Helvetica,Arial,Lucida,sans-serif;
+  margin: 2em;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Montserrat',Helvetica,Arial,Lucida,sans-serif
+}
+
+h1 {
+  color: gray;
+}
