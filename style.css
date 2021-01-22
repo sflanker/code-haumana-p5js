@@ -25,3 +25,9 @@ h1 {
 body#home header {
   margin-top: 80px;
 }
+
+select#sketch_selector {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}

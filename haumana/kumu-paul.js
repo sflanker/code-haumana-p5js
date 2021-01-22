@@ -40,3 +40,7 @@ function sketch(p) {
     window.setTimeout(() => p.loop(), 1000 / 12);
   }
 }
+
+export var sketches = {
+  Default: sketch
+};

@@ -10,7 +10,7 @@
  * using "instance mode".
  * See: https://p5js.org/examples/instance-mode-instantiation.html
  *******************/
-function sketch(p) {
+function mouseDraw(p) {
   // Variables initialized here
   let x;
   let y;
@@ -21,12 +21,41 @@ function sketch(p) {
     p.createCanvas(p.windowWidth, p.windowHeight);
     
     // You can put any initial setup code here
-    p.background('white');
+    p.background('lavender');
+    p.noFill();
+    p.stroke(255, 0, 0);
+    x = p.mouseX;
+    y = p.mouseY;
     
     console.log("Sketch Initialized Successfully");
   }
 
   // This function will be called repeatedly
+  p.draw = function() {
+    // This sketch checks if the mouse has moved, if it has it draws a circle
+    // based on where the mouse is located and how fast it is moving
+    if (x !== p.mouseX || y !== p.mouseY) {
+      let size =
+          Math.sqrt(Math.pow(p.mouseX - x, 2) + Math.pow(p.mouseY - y, 2));
+      
+      x = p.mouseX;
+      y = p.mouseY;
+      
+      p.circle(x, y, size);
+    }
+  }
+}
+
+function basics(p) {
+  // The setup function run's once
+  p.setup = function() {
+    // This will create the p5js canvas so that it is the same size as the window
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.background('white');
+    
+    console.log("Sketch Initialized Successfully");
+  }
+  
   p.draw = function() {
     p.fill('red');
     p.noStroke();
@@ -38,5 +67,6 @@ function sketch(p) {
 }
 
 export var sketches = {
-  Default: sketch
+  Basics: basics,
+  MouseDraw: mouseDraw,
 };
