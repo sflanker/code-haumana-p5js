@@ -1,7 +1,8 @@
 /* CSS files add styling rules to your content */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap");
 
-html, body#sketch_body {
+html,
+body#sketch_body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -10,12 +11,16 @@ html, body#sketch_body {
 }
 
 body#home {
-  font-family: 'Open Sans',Helvetica,Arial,Lucida,sans-serif;
+  font-family: "Open Sans", Helvetica, Arial, Lucida, sans-serif;
   margin: 2em;
 }
 
-h1, h2, h3, h4, h5 {
-  font-family: 'Montserrat',Helvetica,Arial,Lucida,sans-serif
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", Helvetica, Arial, Lucida, sans-serif;
 }
 
 h1 {
@@ -30,4 +35,25 @@ select#sketch_selector {
   position: absolute;
   top: 20px;
   right: 10px;
+}
+
+a#sketch_code {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  opacity: 0.2;
+  background: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
+a#sketch_code:hover {
+  opacity: 0.8;
 }

@@ -11,19 +11,13 @@
  * See: https://p5js.org/examples/instance-mode-instantiation.html
  *******************/
 function sketch(p) {
-  // Variables initialized here
-  let x;
-  let y;
-  
-  // The setup function run's once
+  // The setup function runs once
   p.setup = function() {
     // This will create the p5js canvas so that it is the same size as the window
     p.createCanvas(p.windowWidth, p.windowHeight);
     
     // You can put any initial setup code here
     p.background('white');
-    
-    console.log("Sketch Initialized Successfully");
   }
 
   // This function will be called repeatedly

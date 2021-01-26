@@ -16,11 +16,21 @@
       function initialize() {
         let sketchSelector = document.getElementById('sketch_selector');
         
-        for (let key of Object.keys(sketches)) {
+        let sketchList = Object.keys(sketches);
+        for (let key of sketchList) {
           let option = document.createElement('option');
           option.value = key;
           option.innerText = key;
           sketchSelector.append(option);
+        }
+        
+        if (window.location.hash) {
+          try {
+            let ix = Number(window.location.hash.substr(1)) - 1;
+            if (ix > 0 && ix < sketchList.length) {
+              sketchSelector.value = sketchList[ix];
+            }
+          } catch { }
         }
         
         console.log(sketchSelector.value);
@@ -32,6 +42,8 @@
             window.currentSketch = undefined;
           }
           
+          let ix = sketchList.indexOf(sketchSelector.value);
+          window.location.hash = (ix + 1).toString();
           window.currentSketch = new p5(sketches[sketchSelector.value]);
         });
       }

@@ -5,23 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Template's P5js Sketch</title>
+    <title>p5Js Examples</title>
     
     <link href="/style.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js" integrity="sha512-cuCpFhuSthtmbmQ5JjvU7msRYynRI67jVHsQhTP8RY+H4BC9qa9kQJeHTomV9/QnOWJbDpLFKdbIHtqTomJJug==" crossorigin="anonymous"></script>
     
-<!--     <script src="_template.js" type="text/javascript"></script> -->
     <script type="module">
       import { sketches } from './examples.js';
-      
+
       function initialize() {
         let sketchSelector = document.getElementById('sketch_selector');
         
-        for (let key of Object.keys(sketches)) {
+        let sketchList = Object.keys(sketches);
+        for (let key of sketchList) {
           let option = document.createElement('option');
           option.value = key;
           option.innerText = key;
           sketchSelector.append(option);
+        }
+        
+        console.log(window.location);
+        if (window.location.hash) {
+          try {
+            let ix = Number(window.location.hash.substr(1)) - 1;
+            if (ix > 0 && ix < sketchList.length) {
+              sketchSelector.value = sketchList[ix];
+            }
+          } catch { }
         }
         
         console.log(sketchSelector.value);
@@ -33,10 +43,12 @@
             window.currentSketch = undefined;
           }
           
+          let ix = sketchList.indexOf(sketchSelector.value);
+          window.location.hash = (ix + 1).toString();
           window.currentSketch = new p5(sketches[sketchSelector.value]);
         });
       }
-      
+
       if (document.readyState === 'loading') {
         document.addEventListener('readyStateChange', e => { if (document.readyState !== 'loading') { initialize(); } });
       } else {
@@ -48,5 +60,8 @@
     <main></main>
     <select id="sketch_selector">
     </select>
+    <a id="sketch_code" href="https://glitch.com/edit/#!/code-haumana-p5js?path=examples.js" title="View Code">
+      {...}
+    </a>
   </body>
 </html>
