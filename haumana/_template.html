@@ -24,26 +24,40 @@
           sketchSelector.append(option);
         }
         
-        if (window.location.hash) {
+        if (window.location.search) {
           try {
-            let ix = Number(window.location.hash.substr(1)) - 1;
-            if (ix > 0 && ix < sketchList.length) {
-              sketchSelector.value = sketchList[ix];
+            let query =
+              Object.fromEntries(
+                window.location.search.substr(1).split('&').map(v => v.split('='))
+              );
+            
+            if (query["sketch"]) {
+              let ix = Number(query["sketch"]) - 1;
+              if (ix > 0 && ix < sketchList.length) {
+                sketchSelector.value = sketchList[ix];
+              }
             }
-          } catch { }
+          } catch {}
         }
-        
+
         console.log(sketchSelector.value);
         window.currentSketch = new p5(sketches[sketchSelector.value]);
-        
-        sketchSelector.addEventListener('change', () => {
+
+        sketchSelector.addEventListener("change", () => {
           if (window.currentSketch && window.currentSketch.remove) {
             window.currentSketch.remove();
             window.currentSketch = undefined;
           }
-          
+
           let ix = sketchList.indexOf(sketchSelector.value);
-          window.location.hash = (ix + 1).toString();
+          var newurl =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            window.location.pathname +
+            `?sketch=${ix + 1}`;
+          window.history.pushState({ path: newurl }, "", newurl);
+          
           window.currentSketch = new p5(sketches[sketchSelector.value]);
         });
       }

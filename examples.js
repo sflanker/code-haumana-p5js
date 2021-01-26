@@ -39,7 +39,7 @@ function basics(p) {
 function brickWall(p) {
   let x = 10;
   let y = 10;
-  let breakHeight = 20;
+  let brickHeight = 20;
 
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
@@ -49,18 +49,18 @@ function brickWall(p) {
   p.draw = function() {
     p.noStroke();
     p.fill(200, 50, 50);
-    
+
     // Make a brick with a random width
-    var breakWidth = p.random(50, 120);
-    p.rect(x, y, breakWidth, breakHeight);
-    
+    var brickWidth = p.random(50, 120);
+    p.rect(x, y, brickWidth, brickHeight);
+
     // Update x to the right
-    x = x + breakWidth + 10;
+    x = x + brickWidth + 10;
     if (x > p.width) {
       // When we get to the right edge of the window, go back to the left edge
       x = p.width - x;
       // And move down one row
-      y = y + breakHeight + 10;
+      y = y + brickHeight + 10;
     }
   };
 }
@@ -214,7 +214,7 @@ function mouseDraw(p) {
         // Skip drawing when the mouse first moves.
         return;
       }
-      
+
       let size =
         // Measure the distance that the mouse moved since our last frame
         Math.sqrt(Math.pow(p.mouseX - x, 2) + Math.pow(p.mouseY - y, 2));
@@ -230,9 +230,43 @@ function mouseDraw(p) {
   };
 }
 
+// Credit: Craig S. Kaplan https://openprocessing.org/sketch/683686
+function waves(p) {
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+  };
+
+  p.draw = function() {
+    p.background("black");
+    p.noFill();
+    // You could also use noise or randomness to change the color of each line
+    p.stroke("white");
+
+    for (let y = 100; y < p.height - 100; y += 10) {
+      p.beginShape();
+      for (let x = 0; x < p.width; ++x) {
+        p.vertex(
+          x,
+          y -
+            // Try changing parts of this formula to see how the waves change
+            // This part effects where the main peak is
+            (80 / (1 + p.pow(x - 150, 4) / 8e6)) *
+              // The x component effects how wiggly the lines are
+              // The frameCount component effects how fast things change
+              // The y component effects how different each line is from the one above it
+              p.noise(x / 30 + p.frameCount / 20 + y)
+        );
+      }
+
+      p.endShape();
+    }
+  };
+}
+
 export var sketches = {
   Basics: basics,
   BrickWall: brickWall,
   Mystify: mystify,
-  MouseDraw: mouseDraw
+  MouseDraw: mouseDraw,
+  Waves: waves
 };
