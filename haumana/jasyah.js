@@ -1,4 +1,6 @@
 /*******************
+ * This file belongs to Jasyah!
+ *
  * This function defines your "sketch".
  * The "p" argument is the p5js instance that you can use to call any function
  * in the p5js library.
