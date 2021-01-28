@@ -1,0 +1,20 @@
+{
+  "name": "CodeHaumana",
+  "version": "0.0.1",
+  "description": "CodeHaumana Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "license": "MIT"
+}

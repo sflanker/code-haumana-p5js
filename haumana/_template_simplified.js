@@ -1,3 +1,6 @@
+// For a list of all the p5js methods and properties see: https://p5js.org/reference/
+
+
 // The setup function run's once
 function setup() {
   // This will create the p5js canvas so that it is the same size as the window

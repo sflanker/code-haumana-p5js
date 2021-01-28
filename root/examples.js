@@ -1,14 +1,7 @@
 /*******************
- * This function defines your "sketch".
- * The "p" argument is the p5js instance that you can use to call any function
- * in the p5js library.
+ * Here are some example sketches that you can copy and paste to your file to experiment with.
  *
- * Note: this file is structured for use with p5.js in "instance mode" as
- * opposed to "global mode". If you see examples that have top level functions
- * declared such as: setup, draw, preload, mousePressed, mouseReleased, etc.
- * these functions should be assigned to properties on the "p" argument when
- * using "instance mode".
- * See: https://p5js.org/examples/instance-mode-instantiation.html
+ * PLEASE DON'T EDIT THIS FILE.
  *******************/
 function basics(p) {
   // The setup function run's once
@@ -33,6 +26,71 @@ function basics(p) {
     p.noFill();
     p.stroke("blue");
     p.square(60, 60, 100);
+  };
+}
+
+function algebra(p) {
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    
+  }
+  
+  p.draw = function() {
+    // flip the coordinate system so it works like cartesian coordinates
+    p.translate(0, p.height / 2); 
+    p.scale(1, -1);
+    
+    p.background(50, 10);
+    
+    p.strokeWeight(1);
+    p.stroke('lightgray');
+    p.line(0,0, p.width, 0)
+    
+    p.strokeWeight(3);
+    let x = (p.frameCount * 2) % p.width;
+    
+    // Lines: y = m * x + c
+    p.stroke('green');
+    p.point(x, 1 * x + 50);
+    p.point(x, -0.5 * x + 150);
+    
+    // Quadratic functions: a * x ^ 2 + b * x + c
+    // Note: dividing x by 10 to stretch things horizontally
+    p.stroke('blue');
+    p.point(x, 0.2 * (x / 10) ** 2 - 6 * (x / 10) - 120);
+    
+    // Exponental curve: a * (1 + r) ^ x
+    p.stroke('red');
+    p.point(x, 0.2 * (1.03) ** x - 50);
+  }
+}
+
+function modulo(p) {
+  const size = 150;
+  const cycle = 10;
+  let centerX, centerY;
+  
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    
+    centerX = p.width / 2;
+    centerY = p.height / 2;
+  };
+
+  p.draw = function() {
+    p.background(255, 30);
+    p.noFill();
+    p.stroke('red');
+    // Draw a circle that gets steadily bigger until it reaches some limit, and then go back to its initial size.
+    p.strokeWeight((p.second() + 1) / cycle);
+    p.circle(centerX, centerY, (p.second() % cycle + 1) / cycle * size);
+    
+    p.noStroke();
+    p.fill('black');
+    // Draw the number we're currently using as input to our formula
+    const textSize = (p.second() % cycle) / cycle * 15 + 10;
+    p.textSize(textSize);
+    p.text(p.second(), centerX - textSize * 0.5, centerY + textSize * 0.3);
   };
 }
 
@@ -265,6 +323,8 @@ function waves(p) {
 
 export var sketches = {
   Basics: basics,
+  Algebra: algebra,
+  Modulo: modulo,
   BrickWall: brickWall,
   Mystify: mystify,
   MouseDraw: mouseDraw,

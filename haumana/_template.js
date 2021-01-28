@@ -3,12 +3,7 @@
  * The "p" argument is the p5js instance that you can use to call any function
  * in the p5js library.
  *
- * Note: this file is structured for use with p5.js in "instance mode" as
- * opposed to "global mode". If you see examples that have top level functions
- * declared such as: setup, draw, preload, mousePressed, mouseReleased, etc.
- * these functions should be assigned to properties on the "p" argument when
- * using "instance mode".
- * See: https://p5js.org/examples/instance-mode-instantiation.html
+ * For a list of all the p5js methods and properties see: https://p5js.org/reference/
  *******************/
 function sketch(p) {
   // The setup function runs once

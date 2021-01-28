@@ -1,5 +1,5 @@
 /*******************
- * This file belongs to Jasyah!
+ * This file belongs to Kumu Kahealani
  *
  * This function defines your "sketch".
  * The "p" argument is the p5js instance that you can use to call any function
@@ -19,9 +19,9 @@ function sketch(p) {
 
   // This function will be called repeatedly
   p.draw = function() {
-    p.fill('red');
+    p.fill('coral');
     p.noStroke();
-    p.circle(60, 60, 50);
+    p.circle(60, 60, 200);
     p.noFill();
     p.stroke('blue');
     p.square(60, 60, 100);
