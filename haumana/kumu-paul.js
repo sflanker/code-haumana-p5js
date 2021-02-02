@@ -201,6 +201,7 @@ function minecraftSkinViewer(p) {
 
     // top
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(0, -1, 0);
     drawVertex(shape.topBackLeft, texture.top[0], texture.top[1]);
     drawVertex(shape.topBackRight, texture.top[2], texture.top[1]);
     drawVertex(shape.topFrontLeft, texture.top[0], texture.top[3]);
@@ -209,6 +210,7 @@ function minecraftSkinViewer(p) {
 
     // front
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(0, 0, 1);
     drawVertex(shape.topFrontLeft, texture.front[0], texture.front[1]);
     drawVertex(shape.topFrontRight, texture.front[2], texture.front[1]);
     drawVertex(shape.bottomFrontLeft, texture.front[0], texture.front[3]);
@@ -217,6 +219,7 @@ function minecraftSkinViewer(p) {
 
     // left (note: this is a little confusing, but the "left" side of the model is drawn using the "right" side of our rectangular prism because we're drawing it facing the camera).
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(1, 0, 0);
     drawVertex(shape.topFrontRight, texture.left[0], texture.left[1]);
     drawVertex(shape.topBackRight, texture.left[2], texture.left[1]);
     drawVertex(shape.bottomFrontRight, texture.left[0], texture.left[3]);
@@ -225,6 +228,7 @@ function minecraftSkinViewer(p) {
 
     // back
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(0, 0, -1);
     drawVertex(shape.topBackRight, texture.back[0], texture.back[1]);
     drawVertex(shape.topBackLeft, texture.back[2], texture.back[1]);
     drawVertex(shape.bottomBackRight, texture.back[0], texture.back[3]);
@@ -233,6 +237,7 @@ function minecraftSkinViewer(p) {
 
     // right
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(-1, 0, 0);
     drawVertex(shape.topBackLeft, texture.right[0], texture.right[1]);
     drawVertex(shape.topFrontLeft, texture.right[2], texture.right[1]);
     drawVertex(shape.bottomBackLeft, texture.right[0], texture.right[3]);
@@ -241,6 +246,7 @@ function minecraftSkinViewer(p) {
 
     // bottom
     p.beginShape(p.TRIANGLE_STRIP);
+    p.vertexNormal(0, 1, 0);
     drawVertex(shape.bottomFrontLeft, texture.bottom[0], texture.bottom[1]);
     drawVertex(shape.bottomFrontRight, texture.bottom[2], texture.bottom[1]);
     drawVertex(shape.bottomBackLeft, texture.bottom[0], texture.bottom[3]);
@@ -256,11 +262,19 @@ function minecraftSkinViewer(p) {
 
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL);
+    
+    // patch p5 js if it is missing vertexNormal
+    if (!p.vertexNormal) {
+      // no-op
+      p.vertexNormal = function() {};
+    }
   };
 
   p.draw = function() {
     p.background("white");
     p.orbitControl(3, 2, 0.1);
+    p.ambientLight(60, 60, 60);
+    p.directionalLight(255, 255, 255, p._renderer._curCamera.eyeX * -1, p._renderer._curCamera.eyeY * -1, p._renderer._curCamera.eyeZ * -1);
     p.drawingContext.texParameteri(
       gl.TEXTURE_2D,
       gl.TEXTURE_MAG_FILTER,
@@ -370,7 +384,6 @@ function jezzball(p) {
     if (event.key === " ") {
       direction = (direction + 1) % 2;
       p.cursor(direction == NS ? "ns-resize" : "ew-resize");
-      missing();
     }
   };
 
