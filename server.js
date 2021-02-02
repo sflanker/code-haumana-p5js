@@ -11,6 +11,7 @@ app.use('/assets', assets);
 
 // http://expressjs.com/en/starter/static-files.html
 app.use('/haumana', express.static('haumana'));
+app.use('/lib', express.static('lib'));
 app.use('/', express.static('root'));
 
 // listen for requests :)

@@ -10,8 +10,33 @@
     <link href="/style.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js" integrity="sha512-cuCpFhuSthtmbmQ5JjvU7msRYynRI67jVHsQhTP8RY+H4BC9qa9kQJeHTomV9/QnOWJbDpLFKdbIHtqTomJJug==" crossorigin="anonymous"></script>
     <script src="_template_simplified.js" type="text/javascript"></script>
+    
+    <script type="module">
+      import { guiConsole } from '/lib/gui-console.js';
+      
+      function startConsole() {
+        guiConsole('console');
+        
+        document.getElementById('console_toggle').addEventListener('click', e => {
+          document.getElementById('console_wrapper').classList.toggle('hidden');
+        });
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('readyStateChange', e => { if (document.readyState !== 'loading') { startConsole(); } });
+      } else {
+        startConsole();
+      }
+    </script>
   </head>
   <body id="sketch_body">
     <main></main>
+    <div id="console_wrapper" class="hidden">
+      <div id="console_toggle">
+        ...
+      </div>
+      <div id="console">
+      </div>
+    </div>
   </body>
 </html>

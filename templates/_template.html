@@ -68,10 +68,34 @@
         initialize();
       }
     </script>
+    <script type="module">
+      import { guiConsole } from '/lib/gui-console.js';
+      
+      function startConsole() {
+        guiConsole('console');
+        
+        document.getElementById('console_toggle').addEventListener('click', e => {
+          document.getElementById('console_wrapper').classList.toggle('hidden');
+        });
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('readyStateChange', e => { if (document.readyState !== 'loading') { startConsole(); } });
+      } else {
+        startConsole();
+      }
+    </script>
   </head>
   <body id="sketch_body">
     <main></main>
     <select id="sketch_selector">
     </select>
+    <div id="console_wrapper" class="hidden">
+      <div id="console_toggle">
+        ...
+      </div>
+      <div id="console">
+      </div>
+    </div>
   </body>
 </html>

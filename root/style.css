@@ -57,3 +57,57 @@ a#sketch_code {
 a#sketch_code:hover {
   opacity: 0.8;
 }
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+#console_toggle {
+  position: absolute;
+  top: -20px;
+  right: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  visibility: visible;
+  width: 28px;
+  height: 20px;
+  text-align: center;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+}
+
+#console_wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.6);
+  color: limegreen;
+  font-family: monospace;
+  max-height: 200px;
+  display: flex;
+}
+
+.gui-console {
+  padding: 10px;
+  overflow-y: auto;
+  whitespace: pre-wrap;
+}
+
+.hidden .gui-console {
+  /* weird bug when things initially load */
+  padding: 0;
+}
+
+.log-message::before {
+  content: '>  ';
+}
+
+.error-message::before {
+  content: '❗️ ';
+  color: red;
+}
+
+.warn-message::before {
+  content: '⚠️ ';
+  color: yellow;
+}

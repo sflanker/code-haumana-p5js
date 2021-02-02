@@ -370,6 +370,7 @@ function jezzball(p) {
     if (event.key === " ") {
       direction = (direction + 1) % 2;
       p.cursor(direction == NS ? "ns-resize" : "ew-resize");
+      missing();
     }
   };
 
