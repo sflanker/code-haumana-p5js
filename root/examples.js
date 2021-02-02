@@ -32,47 +32,46 @@ function basics(p) {
 function algebra(p) {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    
-  }
-  
+  };
+
   p.draw = function() {
     // flip the coordinate system so it works like cartesian coordinates
-    p.translate(0, p.height / 2); 
+    p.translate(0, p.height / 2);
     p.scale(1, -1);
-    
+
     p.background(50, 10);
-    
+
     p.strokeWeight(1);
-    p.stroke('lightgray');
-    p.line(0,0, p.width, 0)
-    
+    p.stroke("lightgray");
+    p.line(0, 0, p.width, 0);
+
     p.strokeWeight(3);
     let x = (p.frameCount * 2) % p.width;
-    
+
     // Lines: y = m * x + c
-    p.stroke('green');
+    p.stroke("green");
     p.point(x, 1 * x + 50);
     p.point(x, -0.5 * x + 150);
-    
+
     // Quadratic functions: a * x ^ 2 + b * x + c
     // Note: dividing x by 10 to stretch things horizontally
-    p.stroke('blue');
+    p.stroke("blue");
     p.point(x, 0.2 * (x / 10) ** 2 - 6 * (x / 10) - 120);
-    
+
     // Exponental curve: a * (1 + r) ^ x
-    p.stroke('red');
-    p.point(x, 0.2 * (1.03) ** x - 50);
-  }
+    p.stroke("red");
+    p.point(x, 0.2 * 1.03 ** x - 50);
+  };
 }
 
 function modulo(p) {
   const size = 150;
   const cycle = 10;
   let centerX, centerY;
-  
+
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    
+
     centerX = p.width / 2;
     centerY = p.height / 2;
   };
@@ -80,15 +79,15 @@ function modulo(p) {
   p.draw = function() {
     p.background(255, 30);
     p.noFill();
-    p.stroke('red');
+    p.stroke("red");
     // Draw a circle that gets steadily bigger until it reaches some limit, and then go back to its initial size.
     p.strokeWeight((p.second() + 1) / cycle);
-    p.circle(centerX, centerY, (p.second() % cycle + 1) / cycle * size);
-    
+    p.circle(centerX, centerY, (((p.second() % cycle) + 1) / cycle) * size);
+
     p.noStroke();
-    p.fill('black');
+    p.fill("black");
     // Draw the number we're currently using as input to our formula
-    const textSize = (p.second() % cycle) / cycle * 15 + 10;
+    const textSize = ((p.second() % cycle) / cycle) * 15 + 10;
     p.textSize(textSize);
     p.text(p.second(), centerX - textSize * 0.5, centerY + textSize * 0.3);
   };
@@ -321,6 +320,216 @@ function waves(p) {
   };
 }
 
+function boids(p) {
+  // derived from http://www.vergenet.net/~conrad/boids/pseudocode.html
+
+  const flock = [];
+  let frameRate = 60;
+  let debugging = false;
+
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.frameRate(frameRate);
+
+    for (let i = 0; i < 20; i++) {
+      flock.push(new boid());
+    }
+  };
+
+  p.draw = function() {
+    p.background(220, 100);
+    p.noStroke();
+    p.fill('gray');
+    p.textSize(18);
+    p.text('Click to add a boid.', 10, 10 + 18);
+    p.text('Arrow keys to speed up/slow down.', 10, 10 + 18 * 2);
+    p.text('Press ? to show vectors.', 10, 10 + 18 * 3);
+    p.text(`Target Frame Rate: ${frameRate}`, 10, 10 + 18 * 4);
+
+    for (let boid of flock) {
+      boid.edges();
+      boid.flock(flock);
+      boid.show();
+      boid.update();
+    }
+  };
+
+  p.mousePressed = function() {
+    let b = new boid();
+    b.position = p.createVector(p.mouseX, p.mouseY);
+    flock.push(b);
+  };
+  
+  let paused = false;
+  p.keyPressed = function(e) {
+    switch (e.key) {
+      case ' ':
+        if (!paused) {
+          paused = true;
+          p.noLoop();
+        } else {
+          paused = false;
+          p.loop();
+        }
+        break;
+        
+      case 'ArrowRight':
+      case 'ArrowUp':
+        frameRate++;
+        p.frameRate(frameRate);
+        
+        break;
+        
+      case 'ArrowLeft':
+      case 'ArrowDown':
+        if (frameRate > 1) {
+          frameRate--;
+          p.frameRate(frameRate);
+        }
+        
+        break;
+        
+      case '?':
+        debugging = !debugging;
+        break;
+        
+      default:
+        console.log(`Key '${e.key}'`);
+    }
+  }
+
+  const gravitateDistance = 150;
+  const alignDistance = 100;
+  const avoidDistance = 50;
+  const gravity = 0.02;
+  const alignment = 0.01;
+  const avoidStrength = 6;
+  const avoidBias = 10;
+  const maxSpeed = 4;
+  const edgeMode = 'bounce'; // 'wrap'
+  
+  //boids
+  class boid {
+    constructor() {
+      this.position = p.createVector(p.random(p.width), p.random(p.height));
+      this.velocity = p.createVector(p.random(), p.random());
+      this.velocity.setMag(p.random(1, 4));
+      this.maxSpeed = 4;
+    } //constructor
+    
+    debugLine(v, color) {
+      if (debugging) {
+        p.stroke(color);
+        p.strokeWeight(1);
+        p.line(
+          this.position.x,
+          this.position.y,
+          this.position.x + v.x,
+          this.position.y + v.y
+        );
+      }
+    }
+    
+    // Update velocity based on proximity the nearby boids
+    flock(boids) {
+      let neighbors = boids.filter(b => b !== this);
+      let deltaV =
+        this.flock_gravitate(boids)
+          .add(this.flock_avoid(neighbors))
+          .add(this.flock_align(boids));
+      
+      this.velocity.add(deltaV).limit(maxSpeed);
+      this.debugLine(p5.Vector.mult(this.velocity, 5), 'red');
+    } // boids
+    
+    flock_gravitate(boids) {
+      let center =
+        boids.map(b => b.position)
+          .filter(v => v.dist(this.position) < gravitateDistance)
+          // Running average: current average times current count, plus new value, divided by new count
+          .reduce((c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))), p.createVector());
+      
+      let result = center.sub(this.position).mult(gravity);
+      this.debugLine(p5.Vector.mult(result, 30), 'green');
+      return result
+    }
+    
+    flock_align(boids) {
+      let aligned =
+        boids
+          .filter(b => b.position.dist(this.position) < alignDistance)
+          .map(b => b.velocity)
+          // Running average: current average times current count, plus new value, divided by new count
+          .reduce((c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))), p.createVector());
+      
+      let result = aligned.sub(this.velocity).mult(alignment);
+      this.debugLine(p5.Vector.mult(result, 1000), 'blue');
+      return result
+    }
+    
+    flock_avoid(boids) {
+      let path =
+        boids.map(b => b.position)
+          .filter(v => v.dist(this.position) < avoidDistance)
+          .reduce(
+            (c, v) => c.add(p5.Vector.sub(this.position, v).setMag(avoidStrength / (v.dist(this.position) + avoidBias))),
+            p.createVector()
+          );
+      
+      this.debugLine(p5.Vector.mult(path, 30), 'orange');
+      return path
+    }
+
+    update() {
+      this.position.add(this.velocity);
+    } //update
+
+    show() {
+      p.strokeWeight(6);
+      p.stroke(0);
+      p.point(this.position.x, this.position.y);
+    } //show
+
+    edges() {
+      switch (edgeMode) {
+        case 'wrap':
+          // Wrap around the screen
+          if (this.position.x > p.width) {
+            this.position.x = 0;
+          } else if (this.position.x < 0) {
+            this.position.x = p.width;
+          }
+
+          if (this.position.y > p.height) {
+            this.position.y = 0;
+          } else if (this.position.y < 0) {
+            this.position.y = p.height;
+          }
+          break;
+        case 'bounce':
+          // Bounce off the edges
+          if (this.position.x > p.width) {
+            this.position.x = p.width - (this.position.x - p.width);
+            this.velocity.x *= -1;
+          } else if (this.position.x < 0) {
+            this.position.x *= -1;
+            this.velocity.x *= -1;
+          }
+
+          if (this.position.y > p.height) {
+            this.position.y = p.height - (this.position.y - p.height);
+            this.velocity.y *= -1;
+          } else if (this.position.y < 0) {
+            this.position.y *= -1;
+            this.velocity.y *= -1;
+          }
+          break;
+      }
+      
+    } // edges
+  } //boid
+}
+
 export var sketches = {
   Basics: basics,
   Algebra: algebra,
@@ -328,5 +537,8 @@ export var sketches = {
   BrickWall: brickWall,
   Mystify: mystify,
   MouseDraw: mouseDraw,
-  Waves: waves
+  Waves: waves,
+  Boids: boids
 };
+
+/* globals p5 */
