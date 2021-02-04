@@ -80,7 +80,7 @@ a#sketch_code:hover {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.8);
   color: limegreen;
   font-family: monospace;
   max-height: 200px;
@@ -105,6 +105,10 @@ a#sketch_code:hover {
 .error-message::before {
   content: '❗️ ';
   color: red;
+}
+
+.error-message {
+  color: crimson;
 }
 
 .warn-message::before {

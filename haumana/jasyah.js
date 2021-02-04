@@ -7,27 +7,28 @@
  *
  * For a list of all the p5js methods and properties see: https://p5js.org/reference/
  *******************/
-function sketch(p) {
-  // The setup function runs once
+function waves(p) {
   p.setup = function() {
-    // This will create the p5js canvas so that it is the same size as the window
     p.createCanvas(p.windowWidth, p.windowHeight);
-    
-    // You can put any initial setup code here
-    p.background('white');
-  }
+  };
 
-  // This function will be called repeatedly
   p.draw = function() {
-    p.fill('red');
-    p.noStroke();
-    p.circle(60, 60, 50);
+    p.background("black");
     p.noFill();
-    p.stroke('blue');
-    p.square(60, 60, 100);
-  }
+    // You could also use noise or randomness to change the color of each line
+    p.stroke("white");
+
+    for (let y = 100; y < p.height - 100; y += 15) {
+      p.beginShape();
+      for (let x = 0; x < p.width; ++x) {
+        p.vertex(x,y);
+      }
+
+      p.endShape();
+    }
+  };
 }
 
 export var sketches = {
-  Basics: sketch
+  Waves: waves
 };

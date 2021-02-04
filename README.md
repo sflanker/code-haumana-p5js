@@ -21,21 +21,33 @@ This Project
 
 That's this file, where you can learn about this project.
 
-### ← index.html
+### ← haumana/
+
+This folder contains all of the students' individual files.
+
+### ← root/index.html
 
 This page contains links to each student's sketch.
+
+### ← root/examples.html + root/examples.js
+
+A set of examples that demonstrate different computer programming concepts.
 
 ### ← style.css
 
 This css file contains global styles for this project.
 
-### ← haumana/_template.html
+### ← templates/_template.html
 
 This is the template HTML file for each student's page. It should be duplicated for each student and updated with their name and the name of their javascript file.
 
-### ← haumana/_template.js
+### ← templates/_template.js
 
 This is the template JS file for each student's sketch. It should be duplicated for each student.
+
+### ← lib/
+
+This folder contains some shared javascript files used for displaying sketches on the student pages.
 
 ### ← assets
 

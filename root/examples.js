@@ -339,11 +339,11 @@ function boids(p) {
   p.draw = function() {
     p.background(220, 100);
     p.noStroke();
-    p.fill('gray');
+    p.fill("gray");
     p.textSize(18);
-    p.text('Click to add a boid.', 10, 10 + 18);
-    p.text('Arrow keys to speed up/slow down.', 10, 10 + 18 * 2);
-    p.text('Press ? to show vectors.', 10, 10 + 18 * 3);
+    p.text("Click to add a boid.", 10, 10 + 18);
+    p.text("Arrow keys to speed up/slow down.", 10, 10 + 18 * 2);
+    p.text("Press ? to show vectors.", 10, 10 + 18 * 3);
     p.text(`Target Frame Rate: ${frameRate}`, 10, 10 + 18 * 4);
 
     for (let boid of flock) {
@@ -359,11 +359,11 @@ function boids(p) {
     b.position = p.createVector(p.mouseX, p.mouseY);
     flock.push(b);
   };
-  
+
   let paused = false;
   p.keyPressed = function(e) {
     switch (e.key) {
-      case ' ':
+      case " ":
         if (!paused) {
           paused = true;
           p.noLoop();
@@ -372,31 +372,31 @@ function boids(p) {
           p.loop();
         }
         break;
-        
-      case 'ArrowRight':
-      case 'ArrowUp':
+
+      case "ArrowRight":
+      case "ArrowUp":
         frameRate++;
         p.frameRate(frameRate);
-        
+
         break;
-        
-      case 'ArrowLeft':
-      case 'ArrowDown':
+
+      case "ArrowLeft":
+      case "ArrowDown":
         if (frameRate > 1) {
           frameRate--;
           p.frameRate(frameRate);
         }
-        
+
         break;
-        
-      case '?':
+
+      case "?":
         debugging = !debugging;
         break;
-        
+
       default:
         console.log(`Key '${e.key}'`);
     }
-  }
+  };
 
   const gravitateDistance = 150;
   const alignDistance = 100;
@@ -406,8 +406,8 @@ function boids(p) {
   const avoidStrength = 6;
   const avoidBias = 10;
   const maxSpeed = 4;
-  const edgeMode = 'bounce'; // 'wrap'
-  
+  const edgeMode = "bounce"; // 'wrap'
+
   //boids
   class boid {
     constructor() {
@@ -416,7 +416,7 @@ function boids(p) {
       this.velocity.setMag(p.random(1, 4));
       this.maxSpeed = 4;
     } //constructor
-    
+
     debugLine(v, color) {
       if (debugging) {
         p.stroke(color);
@@ -429,55 +429,64 @@ function boids(p) {
         );
       }
     }
-    
+
     // Update velocity based on proximity the nearby boids
     flock(boids) {
       let neighbors = boids.filter(b => b !== this);
-      let deltaV =
-        this.flock_gravitate(boids)
-          .add(this.flock_avoid(neighbors))
-          .add(this.flock_align(boids));
-      
+      let deltaV = this.flock_gravitate(boids)
+        .add(this.flock_avoid(neighbors))
+        .add(this.flock_align(boids));
+
       this.velocity.add(deltaV).limit(maxSpeed);
-      this.debugLine(p5.Vector.mult(this.velocity, 5), 'red');
+      this.debugLine(p5.Vector.mult(this.velocity, 5), "red");
     } // boids
-    
+
     flock_gravitate(boids) {
-      let center =
-        boids.map(b => b.position)
-          .filter(v => v.dist(this.position) < gravitateDistance)
-          // Running average: current average times current count, plus new value, divided by new count
-          .reduce((c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))), p.createVector());
-      
+      let center = boids
+        .map(b => b.position)
+        .filter(v => v.dist(this.position) < gravitateDistance)
+        // Running average: current average times current count, plus new value, divided by new count
+        .reduce(
+          (c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))),
+          p.createVector()
+        );
+
       let result = center.sub(this.position).mult(gravity);
-      this.debugLine(p5.Vector.mult(result, 30), 'green');
-      return result
+      this.debugLine(p5.Vector.mult(result, 30), "green");
+      return result;
     }
-    
+
     flock_align(boids) {
-      let aligned =
-        boids
-          .filter(b => b.position.dist(this.position) < alignDistance)
-          .map(b => b.velocity)
-          // Running average: current average times current count, plus new value, divided by new count
-          .reduce((c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))), p.createVector());
-      
+      let aligned = boids
+        .filter(b => b.position.dist(this.position) < alignDistance)
+        .map(b => b.velocity)
+        // Running average: current average times current count, plus new value, divided by new count
+        .reduce(
+          (c, v, i) => c.mult(i / (i + 1)).add(p5.Vector.mult(v, 1 / (i + 1))),
+          p.createVector()
+        );
+
       let result = aligned.sub(this.velocity).mult(alignment);
-      this.debugLine(p5.Vector.mult(result, 1000), 'blue');
-      return result
+      this.debugLine(p5.Vector.mult(result, 1000), "blue");
+      return result;
     }
-    
+
     flock_avoid(boids) {
-      let path =
-        boids.map(b => b.position)
-          .filter(v => v.dist(this.position) < avoidDistance)
-          .reduce(
-            (c, v) => c.add(p5.Vector.sub(this.position, v).setMag(avoidStrength / (v.dist(this.position) + avoidBias))),
-            p.createVector()
-          );
-      
-      this.debugLine(p5.Vector.mult(path, 30), 'orange');
-      return path
+      let path = boids
+        .map(b => b.position)
+        .filter(v => v.dist(this.position) < avoidDistance)
+        .reduce(
+          (c, v) =>
+            c.add(
+              p5.Vector.sub(this.position, v).setMag(
+                avoidStrength / (v.dist(this.position) + avoidBias)
+              )
+            ),
+          p.createVector()
+        );
+
+      this.debugLine(p5.Vector.mult(path, 30), "orange");
+      return path;
     }
 
     update() {
@@ -492,7 +501,7 @@ function boids(p) {
 
     edges() {
       switch (edgeMode) {
-        case 'wrap':
+        case "wrap":
           // Wrap around the screen
           if (this.position.x > p.width) {
             this.position.x = 0;
@@ -506,7 +515,7 @@ function boids(p) {
             this.position.y = p.height;
           }
           break;
-        case 'bounce':
+        case "bounce":
           // Bounce off the edges
           if (this.position.x > p.width) {
             this.position.x = p.width - (this.position.x - p.width);
@@ -525,7 +534,6 @@ function boids(p) {
           }
           break;
       }
-      
     } // edges
   } //boid
 }

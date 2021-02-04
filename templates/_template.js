@@ -27,5 +27,5 @@ function sketch(p) {
 }
 
 export var sketches = {
-  Basics: sketch
+  Basics: sketch,
 };
