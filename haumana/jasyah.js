@@ -11,7 +11,13 @@ function waves(p) {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
   };
-
+  
+  let x;
+  let y;
+  let isMouseOver = false;
+    x = p.mouseX;
+    y = p.mouseY;
+  
   p.draw = function() {
     p.background("black");
     p.noFill();

@@ -412,7 +412,7 @@ function boids(p) {
   class boid {
     constructor() {
       this.position = p.createVector(p.random(p.width), p.random(p.height));
-      this.velocity = p.createVector(p.random(), p.random());
+      this.velocity = p.createVector(p.random() - 0.5, p.random() - 0.5);
       this.velocity.setMag(p.random(1, 4));
       this.maxSpeed = 4;
     } //constructor
