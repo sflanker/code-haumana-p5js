@@ -15,81 +15,35 @@
     ></script>
 
     <script type="module">
-      import { sketches } from "./examples.js";
+      import startSketchLoader from "/lib/sketch-loader.js";
 
-      function initialize() {
-        let sketchSelector = document.getElementById("sketch_selector");
+      startSketchLoader(
+        "/examples.js",
+        document.getElementById("sketch_selector")
+      );
+    </script>
 
-        let sketchList = Object.keys(sketches);
-        for (let key of sketchList) {
-          let option = document.createElement("option");
-          option.value = key;
-          option.innerText = key;
-          sketchSelector.append(option);
-        }
+    <script type="module">
+      import { guiConsole } from "/lib/gui-console.js";
 
-        if (window.location.search) {
-          try {
-            let query =
-              Object.fromEntries(
-                window.location.search.substr(1).split('&').map(v => v.split('='))
-              );
-            
-            if (query["sketch"]) {
-              let ix = Number(query["sketch"]) - 1;
-              if (ix > 0 && ix < sketchList.length) {
-                sketchSelector.value = sketchList[ix];
-              }
-            }
-          } catch {}
-        }
+      function startConsole() {
+        guiConsole("console");
 
-        console.log(sketchSelector.value);
-        window.currentSketch = new p5(sketches[sketchSelector.value]);
-
-        sketchSelector.addEventListener("change", () => {
-          if (window.currentSketch && window.currentSketch.remove) {
-            window.currentSketch.remove();
-            window.currentSketch = undefined;
-          }
-
-          let ix = sketchList.indexOf(sketchSelector.value);
-          var newurl =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname +
-            `?sketch=${ix + 1}`;
-          window.history.pushState({ path: newurl }, "", newurl);
-          
-          window.currentSketch = new p5(sketches[sketchSelector.value]);
-        });
+        document
+          .getElementById("console_toggle")
+          .addEventListener("click", e => {
+            document
+              .getElementById("console_wrapper")
+              .classList.toggle("hidden");
+          });
       }
 
       if (document.readyState === "loading") {
         document.addEventListener("readyStateChange", e => {
           if (document.readyState !== "loading") {
-            initialize();
+            startConsole();
           }
         });
-      } else {
-        initialize();
-      }
-    </script>
-    
-    <script type="module">
-      import { guiConsole } from '/lib/gui-console.js';
-      
-      function startConsole() {
-        guiConsole('console');
-        
-        document.getElementById('console_toggle').addEventListener('click', e => {
-          document.getElementById('console_wrapper').classList.toggle('hidden');
-        });
-      }
-      
-      if (document.readyState === 'loading') {
-        document.addEventListener('readyStateChange', e => { if (document.readyState !== 'loading') { startConsole(); } });
       } else {
         startConsole();
       }
@@ -98,19 +52,22 @@
   <body id="sketch_body">
     <main></main>
     <select id="sketch_selector"> </select>
-    <a
-      id="sketch_code"
-      href="https://glitch.com/edit/#!/code-haumana-p5js?path=root%2Fexamples.js"
-      title="View Code"
-    >
-      {...}
-    </a>
+    <div id="nav_buttons">
+      <a id="home_link" class="nav-button" href="/" title="Home">⬅</a>
+      <a
+        id="sketch_code"
+        class="nav-button"
+        href="https://glitch.com/edit/#!/code-haumana-p5js?path=root%2Fexamples.js"
+        title="View Code"
+      >
+        {...}
+      </a>
+    </div>
     <div id="console_wrapper" class="hidden">
       <div id="console_toggle">
         ...
       </div>
-      <div id="console">
-      </div>
+      <div id="console"></div>
     </div>
   </body>
 </html>

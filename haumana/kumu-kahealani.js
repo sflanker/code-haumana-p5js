@@ -21,7 +21,7 @@ function sketch(p) {
   p.draw = function() {
     p.fill('coral');
     p.noStroke();
-    p.circle(60, 60, 200);
+    p.circle(60, 60, 70);
     p.noFill();
     p.stroke('blue');
     p.square(60, 60, 100);

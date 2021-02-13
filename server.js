@@ -2,31 +2,42 @@
 // where your node app starts
 
 // init project
-const express = require('express');
-const app = express();
-const assets = require('./assets');
+const express = require("express");
 
+const assets = require("./assets");
+const watch = require("./watcher");
 
-app.use('/assets', assets);
+async function run() {
+  const app = express();
 
-app.get('/test', (req, res) => {
-  res.send('Hello World!');
-});
+  app.use("/assets", assets);
 
-app.get('/reboot', (req, res) => {
-  res.end("OK");
-  // A small timeout so that the app has the time to respond
-  setTimeout(() => {
-    process.exit(0);
-  }, 500);
-});
+  app.get("/test", (req, res) => {
+    res.send("Hello World!");
+  });
 
-// http://expressjs.com/en/starter/static-files.html
-app.use('/haumana', express.static('haumana'));
-app.use('/lib', express.static('lib'));
-app.use('/', express.static('root'));
+  app.get("/reboot", (req, res) => {
+    res.end("OK");
+    // A small timeout so that the app has the time to respond
+    setTimeout(() => {
+      process.exit(0);
+    }, 500);
+  });
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
+  // Server-Sent Event Source for detecting static file changes
+  app.get("/watch", watch);
+
+  // http://expressjs.com/en/starter/static-files.html
+  app.use("/haumana", express.static("haumana"));
+  app.use("/lib", express.static("lib"));
+  app.use("/", express.static("root"));
+
+  // listen for requests :)
+  const listener = app.listen(process.env.PORT, function() {
+    console.log("Your app is listening on port " + listener.address().port);
+  });
+
+  await listener;
+}
+
+run().catch(err => console.log(err));

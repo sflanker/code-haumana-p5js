@@ -11,62 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js" integrity="sha512-cuCpFhuSthtmbmQ5JjvU7msRYynRI67jVHsQhTP8RY+H4BC9qa9kQJeHTomV9/QnOWJbDpLFKdbIHtqTomJJug==" crossorigin="anonymous"></script>
     
     <script type="module">
-      import { sketches } from './jasyah.js';
+      import startSketchLoader from "/lib/sketch-loader.js";
       
-      function initialize() {
-        let sketchSelector = document.getElementById('sketch_selector');
-        
-        let sketchList = Object.keys(sketches);
-        for (let key of sketchList) {
-          let option = document.createElement('option');
-          option.value = key;
-          option.innerText = key;
-          sketchSelector.append(option);
-        }
-        
-        if (window.location.search) {
-          try {
-            let query =
-              Object.fromEntries(
-                window.location.search.substr(1).split('&').map(v => v.split('='))
-              );
-            
-            if (query["sketch"]) {
-              let ix = Number(query["sketch"]) - 1;
-              if (ix > 0 && ix < sketchList.length) {
-                sketchSelector.value = sketchList[ix];
-              }
-            }
-          } catch {}
-        }
-
-        console.log(sketchSelector.value);
-        window.currentSketch = new p5(sketches[sketchSelector.value]);
-
-        sketchSelector.addEventListener("change", () => {
-          if (window.currentSketch && window.currentSketch.remove) {
-            window.currentSketch.remove();
-            window.currentSketch = undefined;
-          }
-
-          let ix = sketchList.indexOf(sketchSelector.value);
-          var newurl =
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname +
-            `?sketch=${ix + 1}`;
-          window.history.pushState({ path: newurl }, "", newurl);
-          
-          window.currentSketch = new p5(sketches[sketchSelector.value]);
-        });
-      }
-      
-      if (document.readyState === 'loading') {
-        document.addEventListener('readyStateChange', e => { if (document.readyState !== 'loading') { initialize(); } });
-      } else {
-        initialize();
-      }
+      startSketchLoader("/haumana/jasyah.js", document.getElementById("sketch_selector"));
     </script>
     
     <script type="module">
@@ -91,6 +38,9 @@
     <main></main>
     <select id="sketch_selector">
     </select>
+    <div id="nav_buttons">
+      <a id="home_link" class="nav-button" href="/" title="Home">⬅</a>
+    </div>
     <div id="console_wrapper" class="hidden">
       <div id="console_toggle">
         ...
