@@ -19,12 +19,15 @@ function sketch(p) {
 
   // This function will be called repeatedly
   p.draw = function() {
-    p.fill('red');
+    p.fill('blue')
+    p.triangle(100,100, 80, 100, 90, 10);
+    p.fill('black');
     p.noStroke();
-    p.circle(60, 60, 80);
-    p.noFill();
-    p.stroke('blue');
-    p.square(60, 60, 100);
+    p.circle(90,90,60)
+    p.circle(60,60,40)
+    p.circle(123,60,40)
+  
+
   }
 }
 

@@ -14,16 +14,16 @@ function sketch(p) {
     p.createCanvas(p.windowWidth, p.windowHeight);
     
     // You can put any initial setup code here
-    p.background('green');
+    p.background('gold');
   }
 
   // This function will be called repeatedly
   p.draw = function() {
-    p.fill('black');
+    p.fill('red');
     p.noStroke();
     p.circle(60, 60, 80);
     p.noFill();
-    p.stroke('blue');
+    p.stroke('black');
     p.square(60, 60, 100);
   }
 }

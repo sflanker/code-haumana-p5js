@@ -299,6 +299,55 @@ function minecraftSkinViewer(p) {
   };
 }
 
+function mouse_waves(p) {
+  p.setup = function() {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+  };
+  
+  let mouseHistory = [];
+  
+  p.draw = function() {
+    mouseHistory.unshift(p.createVector(p.mouseX, p.mouseY));
+    if (mouseHistory.length > 100) {
+      mouseHistory.pop();
+    }
+    
+    p.background("black");
+    p.noFill();
+    // You could also use noise or randomness to change the color of each line
+    p.stroke("white");
+
+    for (let y = 100; y < p.height - 100; y += 15) {
+      p.beginShape();
+      for (let x = 0; x < p.width; ++x) {
+        let offset = 0;
+        let closestPoint;
+        
+        for (let i = 0; i < mouseHistory.length; i++) {
+          let mousePos = mouseHistory[i];
+          let curX = x + i * 5;
+          let dist = p.createVector(curX, y).dist(mousePos);
+          let deltaY = Math.abs(y - mousePos.y);
+          let newOffset = dist < 30 ? Math.sqrt(30 - dist) * Math.min(2, Math.pow(deltaY, 2) / 20) : 0;
+          if (mousePos.y > y) {
+            newOffset *= -1;
+          }
+          newOffset *= Math.sin(i);
+          
+          if (Math.abs(newOffset) > Math.abs(offset)) {
+            offset = newOffset;
+          }
+        }
+        
+        p.vertex(x, y + offset);
+      }
+      p.endShape();
+     
+    }
+  };
+}
+
+
 import { jezzball } from './kumu-paul/jezzball.js';
 import { gameOfLife } from './kumu-paul/game-of-life.js';
 
@@ -306,5 +355,6 @@ export var sketches = {
   "Minecraft Skin Viewer": minecraftSkinViewer,
   "Random Testing": randomSketch,
   Jezzball: jezzball,
-  "Conway's Game of Life": gameOfLife
+  "Conway's Game of Life": gameOfLife,
+  "Mouse Waves": mouse_waves
 };
