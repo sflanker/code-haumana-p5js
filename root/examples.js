@@ -32,6 +32,10 @@ function basics(p) {
 function algebra(p) {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
+    
+    p.frameRate(20);
+    p.background(50);
+
   };
 
   p.draw = function() {
@@ -39,14 +43,14 @@ function algebra(p) {
     p.translate(0, p.height / 2);
     p.scale(1, -1);
 
-    p.background(50, 10);
+    p.background(50, 5);
 
     p.strokeWeight(1);
     p.stroke("lightgray");
     p.line(0, 0, p.width, 0);
 
-    p.strokeWeight(3);
-    let x = (p.frameCount * 2) % p.width;
+    p.strokeWeight(5);
+    let x = (p.frameCount * 3) % p.width;
 
     // Lines: y = m * x + c
     p.stroke("green");
@@ -60,8 +64,31 @@ function algebra(p) {
 
     // Exponental curve: a * (1 + r) ^ x
     p.stroke("red");
-    p.point(x, 0.2 * 1.03 ** x - 50);
+    p.point(x, debugValue(x, 0.2 * 1.03 ** x - 50, "red"));
+    
+    p.stroke("orange");
+    p.point(x, Math.sqrt(150 ** 2 - (x - 200) ** 2));
+    p.point(x, -Math.sqrt(150 ** 2 - (x - 200) ** 2));
   };
+  
+  function _debugValue(x, val) {
+    return val;
+  }
+  
+  function debugValue(x, val, color) {
+    // Debug output values
+    p.push();
+    p.scale(1, -1);
+    p.fill(50);
+    p.noStroke();
+    let str = val.toFixed(1);
+    p.textSize(20);
+    p.rect(x, -12, p.textWidth(str) + 8, 28);
+    p.fill(color ?? "white");
+    p.text(str, x + 4, 10);
+    p.pop();
+    return val;
+  }
 }
 
 function modulo(p) {

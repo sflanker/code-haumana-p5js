@@ -3,7 +3,7 @@ Welcome to Code Haumana
 
 In this project each of you will have your own project file (i.e. `/haumana/your-name.js`) where you can create a p5.js sketch.
 
-To run your sketch click "🕶 Show" in the header, select the "Next to the Code" option, and then click the link to your page. Updates to your code will instantly refresh the page. To avoid having to constantly navigate back to your page, you can click the "Change URL" button at the top of the display and enter the path to your page (i.e. `/haumana/your-name.html`).
+To run your sketch click "🕶 Show" in the header, select the "Next to the Code" option, and then click the link to your page. Updates to your code will automatically be loaded into your page*. To avoid having to constantly navigate back to your page disable the "Refresh App on Changes" option on the editor settings menu (click the project title in the top left hand corner of the page). Alternately, you can click the "Change URL" button at the top of the display and enter the path to your page (i.e. `/haumana/your-name.html`).
 
 Please only edit _your own_ project files! Be respectful of your fellow students.
 
@@ -53,7 +53,21 @@ This folder contains some shared javascript files used for displaying sketches o
 
 Static files like images or music. Feel free to add files here to use them in your sketch. Just make sure they are 100% appropriate for school.
 
+Auto-Refresh
+------------
+
+Glitch has built in "Refresh App on Changes" functionality. However, there are some drawbacks of glitch's implementation:
+
+ * By default it sends you back to the default page
+ * You have to use the Change URL button each session to set your page
+ * By default it also restarts the backend, which is slow
+
+This project uses a `watch.json` file to disable backend restarts when static content changes. Additionally instead of relying on Glitch's built in "Refresh App on Changes" functionality, each HTML page uses a custom [Server-Sent Event](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) source that monitors the corresponding javascript file for changes.
+
+___
+
 Made with [Glitch](https://glitch.com/)
 -------------------
 
-\ ゜o゜)ノ
+`ヾ(⌐■_■)ノ♪`
+
