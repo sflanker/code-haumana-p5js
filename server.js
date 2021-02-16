@@ -29,6 +29,7 @@ async function run() {
 
   // http://expressjs.com/en/starter/static-files.html
   app.use("/haumana", express.static("haumana"));
+  app.use("/projects", express.static("projects"));
   app.use("/lib", express.static("lib"));
   app.use("/", express.static("root"));
 
