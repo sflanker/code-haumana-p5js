@@ -1,7 +1,7 @@
 /*******************
  *
  * Today we're going to be exploring operators
- * 
+ *
  * All of your basic mathematical operators work in Javascript:
  *
  *     1 + 2         is equal to   3
@@ -30,7 +30,7 @@
  * global variable Math:
  *
  *     Math.abs(x)     Returns the absolute value of x
- *     Math.sign(x)    Returns -1 of x is negative, 1 if x is positive, or 0 of x is exactly 0
+ *     Math.sign(x)    Returns -1 if x is negative, 1 if x is positive, or 0 of x is exactly 0
  *     Math.ceil(x)    Returns x rounded up to the next integer
  *                     (or x if it is already an integer)
  *     Math.floor(x)   Returns x rounded down to the previous integer
@@ -54,13 +54,13 @@
  *     Math.E          Euler's constant, the base of natural logarithms: 2.718...
  *
  * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
- *     
+ *
  *******************/
 function operators(p) {
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    
-    p.frameRate(20);
+
+    p.frameRate(40);
     p.background(50);
   };
 
@@ -68,34 +68,39 @@ function operators(p) {
     p.background(50, 5);
     coordinateSystem(); // helper function with some coordinate system setup
     p.strokeWeight(5);
-    
+
     // x will be a value from 0 to the width of the window
-    let x = (p.frameCount * 3) % p.width;
+    let x = (p.frameCount * 4) % p.width;
 
     // Draws a very boring line of points
-    p.stroke("green");
+    p.stroke("red");
     // The first argument to point() is the horizontal position (a.k.a. X)
     // The second argument to point() is the vertical position (a.k.a. Y)
-    p.point(x, 50);
-    
+    p.point(x, 18 + x);
+
     // ⬑⎼⎼⎼⎼ Make this more interesting
     // If the Y value is a function of X then the vertical position will change as the line goes
     // from left to right
-    
+
     // ⬐⎻⎻⎻⎻ Add more lines by setting a new stroke color and drawing an additional point with a
     //       different value
+
+    // Jasyah
+    p.stroke("red");
+    p.point(x, Math.sin(x)*100); /// use Math. to call trig functions
+// thank you!!
+    // Ili
+    p.stroke("blue");
+    p.point(x, 15 + x);
+
+    
+    // Paul
+    p.stroke("orange");
+    p.point(x, _debugValue(x, -2 * (x - 120) ** 1.3 + 8 * (x - 120) + 27));
+    
+    // End of Draw function
   };
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   // You can use this function to help debug what is happening with your exporession
   // To use it, can replace your y-value expression with debugValue(x, y-value expression)
   // The color parameter is optional
@@ -114,12 +119,12 @@ function operators(p) {
     p.pop();
     return val;
   }
-  
+
   // To quickly turn off debugging, replace debugValue with _debugValue
   function _debugValue(x, val) {
     return val;
   }
-  
+
   function coordinateSystem() {
     // Make y = 0 be the middle of the screen
     p.translate(0, p.height / 2);
@@ -134,5 +139,5 @@ function operators(p) {
 }
 
 export var sketches = {
-  Operators: operators,
+  Operators: operators
 };

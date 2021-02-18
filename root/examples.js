@@ -69,6 +69,9 @@ function algebra(p) {
     p.stroke("orange");
     p.point(x, Math.sqrt(150 ** 2 - (x - 200) ** 2));
     p.point(x, -Math.sqrt(150 ** 2 - (x - 200) ** 2));
+    
+    p.stroke("yellow");
+    p.point(x, 800 * Math.sin(x / 80) ** 63 * Math.sin(x / 80 + 1.5))
   };
   
   function _debugValue(x, val) {

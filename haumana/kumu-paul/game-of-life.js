@@ -1,6 +1,6 @@
 export function gameOfLife(p) {
   const size = 2;
-  const useWorkers = false;
+  const useWorkers = true;
   const threadCount = 8;
 
   let gameSize;
@@ -98,19 +98,21 @@ export function gameOfLife(p) {
   };
 
   p.draw = function() {
-    p.background(255);
+    p.background(255, 128);
+    p.fill('black');
 
     for (let row = 0; row < gameSize.height; row++) {
       for (let col = 0; col < gameSize.width; col++) {
-        p.fill(gameStates[currentState][row * gameSize.width + col] ? 0 : 255);
-        p.square(col * 5, row * 5, 5);
+        if (gameStates[currentState][row * gameSize.width + col]) {
+          p.square(col * size, row * size, size);
+        }
       }
     }
 
     p.fill("red");
     p.textSize(18);
     p.text(
-      `Generation: ${generation} (${(1000 / updateTime).toFixed(1)} gps)`,
+      `Generation: ${generation} (${(Math.round(100 / updateTime) * 10)} gps)`,
       10,
       28
     );
@@ -166,6 +168,16 @@ export function gameOfLife(p) {
     for (let y = 0; y < gameSize.height; y++) {
       for (let x = 0; x < width; x++) {
         let ix = y * width + x;
+				
+				if (p.mouseIsPressed &&
+						p.mouseX >= x * size && p.mouseX <= (x + 1) * size &&
+						p.mouseY >= y * size && p.mouseY <= (y + 1) * size) {
+					
+					// Spawn
+					newWorld[ix] = 1;
+					continue;
+				}
+        
         let n = countNeighbors(oldWorld, x, y);
         switch (n) {
           case 0:

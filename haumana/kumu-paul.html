@@ -13,7 +13,11 @@
     <script type="module">
       import startSketchLoader from "/lib/sketch-loader.js";
       
-      startSketchLoader("/haumana/kumu-paul.js", document.getElementById("sketch_selector"));
+      startSketchLoader(
+        '/haumana/kumu-paul.js',
+        document.getElementById('sketch_selector'),
+        ['/haumana/kumu-paul/game-of-life.js', '/haumana/kumu-paul/game-of-life-worker.js', '/haumana/kumu-paul/jezzball.js']
+      );
     </script>
     
     <script type="module">

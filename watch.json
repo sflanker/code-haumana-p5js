@@ -6,7 +6,7 @@
     ]
   },
   "restart": {
-    "exclude": [ "^haumana", "^root", "^lib", "^templates" ],
+    "exclude": [ "^haumana", "^root", "^lib", "^templates", "^projects" ],
     "include": [
       "\\.js$",
       "\\.json"
