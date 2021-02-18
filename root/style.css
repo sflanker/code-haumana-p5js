@@ -1,13 +1,21 @@
 /* CSS files add styling rules to your content */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap");
 
-html,
+html {
+  position: fixed;
+  /* Compensate for issue with iframe positioning */
+  top: 7px;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body#sketch_body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 body#home {
