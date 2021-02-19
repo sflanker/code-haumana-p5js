@@ -49,11 +49,12 @@ function operators(p) {
     let x = (p.frameCount * 4) % p.width;
 
     // Ili
-    p.stroke("blue");
+    p.stroke("green");
     // The first argument to point() is the horizontal position (a.k.a. X)
     // The second argument to point() is the vertical position (a.k.a. Y)
-    p.point(x, 15 + x);
-
+    p.point(x, 10+15);
+ p.stroke("orange");
+    p.point(10+15 ,y);
     // ⬑⎼⎼⎼⎼ Make this more interesting
     // If the Y value is a function of X then the vertical position will change as the line goes
     // from left to right

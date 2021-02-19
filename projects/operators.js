@@ -73,10 +73,10 @@ function operators(p) {
     let x = (p.frameCount * 4) % p.width;
 
     // Draws a very boring line of points
-    p.stroke("red");
+    p.stroke("blue");
     // The first argument to point() is the horizontal position (a.k.a. X)
     // The second argument to point() is the vertical position (a.k.a. Y)
-    p.point(x, 18 + x);
+    p.point(x, 200 + x);
 
     // ⬑⎼⎼⎼⎼ Make this more interesting
     // If the Y value is a function of X then the vertical position will change as the line goes

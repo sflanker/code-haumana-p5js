@@ -52,11 +52,12 @@
  *
  * You can also combine multiple conditions using "boolean logic operators"
  *
- *     a > 5 && a < 10     Logical And (&&)   Returns true if a is between 5 and
- *                                            10 in this example.
+ *     a > 5 && a < 10     Logical And (&&)   Returns true if a is between 5
+ *                                            and 10 in this example.
  *
  *     a < -10 || a > 10   Logical Or (||)    Returns true if a is greater than
- *                                            10 or less than -10 in this example.
+ *                                            10 or less than -10 in this
+ *                                            example.
  *
  * Lastly you can negate a condition with the "not" or "negation" operator.
  *
@@ -71,28 +72,45 @@ function conditions(p) {
   let y = 0;
   let i = 0;
   let rowWidth;
+  let columnWidth;
   
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
 
-    p.frameRate(40);
+    p.frameRate(60);
     p.background('white');
     p.noStroke();
-    rowWidth = Math.ceil(p.width / (size + spacing));
+    rowWidth = Math.floor(p.width / (size + spacing));
+    columnWidth = Math.floor(rowWidth / 4);
   };
 
   p.draw = function() {
     i = y * rowWidth + x;
     
-    // Fizz buzz (https://en.wikipedia.org/wiki/Fizz_buzz)
-    if (i % 15 == 0) {
-      p.fill('red');
-    } else if (i % 5 == 0) {
+    if (x / rowWidth < 0.25) {
+      if (y > x && y <= columnWidth) {
+        p.fill('pink');
+      } else if (y > columnWidth & x < (columnWidth - (y - columnWidth) + 2)) {
+        p.fill('orange');
+      } else if (p.random() > y / (columnWidth * 4)) {
+        p.fill('green');
+      } else {
+        p.fill('red');
+      }
+    } else if (x / rowWidth < 0.5) {
+      // Ili
+      if(i% 5==0){
+        p.fill('blue');
+      } else {
+        // Ili, I added this so my pattern wouldn't run into yours. -Kumu Paul
+        p.fill('white');
+      }
+    } else if (x / rowWidth < 0.75) {
+      // Pili
       p.fill('green');
-    } else if (i % 3 == 0) {
-      p.fill('blue');
-    } else {
-      p.noFill();
+    } else if (x / rowWidth < 1.0) {
+      // Jasyah
+      p.fill('maroon');
     }
     
     // Draw a square
