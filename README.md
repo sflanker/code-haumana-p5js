@@ -25,6 +25,10 @@ That's this file, where you can learn about this project.
 
 This folder contains all of the students' individual files.
 
+### ← projects/
+
+This folder contains group projects.
+
 ### ← root/index.html
 
 This page contains links to each student's sketch.
