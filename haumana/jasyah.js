@@ -17,8 +17,8 @@ function waves(p) {
   p.draw = function() {
     p.background("black");
     p.noFill();
-    // its break time UwU
     p.stroke("white");
+
     for (let y = 100; y < p.height - 100; y += 15) {
       p.beginShape();
       for (let x = 0; x < p.width; ++x) {
@@ -29,11 +29,9 @@ function waves(p) {
           x > mousePositionX - mouseRadius
         ) {
           if (y > mousePositionY - mouseRadius && y <= mousePositionY) {
-            //or here? one of the two
             p.vertex(x, y - (mouseRadius - (mousePositionY - y)));
           } else {
             if (y < mousePositionY + mouseRadius && y > mousePositionY) {
-              // my math here is wrong...
               p.vertex(x, y + (mouseRadius - (y - mousePositionY)));
             } else {
               p.vertex(x, y);
@@ -47,7 +45,6 @@ function waves(p) {
     }
   };
 } // End of waves sketch
-
 
 function operators(p) {
   p.setup = function() {
@@ -70,8 +67,8 @@ function operators(p) {
     // The second argument to point() is the vertical position (a.k.a. Y)
     p.stroke("red");
     // Note Math.sin expects Radians, to use degrees, divide by 360 and multiply by 2 PI
-    p.point(x, Math.sin(x / 360 * (2 * Math.PI)) * 100); /// use Math. to call trig functions
-    
+    p.point(x, Math.sin((x / 360) * (2 * Math.PI)) * 100); /// use Math. to call trig functions
+
     // This just displays the x value you can comment it out
     debugValue(x, x);
 
@@ -82,7 +79,6 @@ function operators(p) {
     // ⬐⎻⎻⎻⎻ Add more lines by setting a new stroke color and drawing an additional point with a
     //       different value
 
-    
     // End of Draw function
   };
 
@@ -127,6 +123,6 @@ function operators(p) {
 export var sketches = {
   // Format:
   // "Name": function,
-  "Waves": waves,
-  "Operators": operators
+  Waves: waves,
+  Operators: operators
 };
