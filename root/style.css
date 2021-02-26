@@ -2,20 +2,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap");
 
 html {
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+body#sketch_body {
   position: fixed;
-  /* Compensate for issue with iframe positioning */
-  top: 7px;
+  top: 0;
   bottom: 0;
   width: 100%;
   margin: 0;
   padding: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
-body#sketch_body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+canvas {
+  position: absolute;
+  top: 7px;
 }
 
 body#home {
@@ -95,7 +100,7 @@ select#sketch_selector {
 }
 
 #console_wrapper {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: rgba(0,0,0,0.8);
@@ -106,6 +111,7 @@ select#sketch_selector {
 }
 
 .gui-console {
+  width: 100%;
   padding: 10px;
   overflow-y: auto;
   whitespace: pre-wrap;

@@ -350,8 +350,10 @@ function mouse_waves(p) {
 
 import { jezzball } from './kumu-paul/jezzball.js';
 import { gameOfLife } from './kumu-paul/game-of-life.js';
+import { shaderStudio } from './kumu-paul/shader-studio.js';
 
 export var sketches = {
+  "Shader Studio":  shaderStudio,
   "Minecraft Skin Viewer": minecraftSkinViewer,
   "Random Testing": randomSketch,
   Jezzball: jezzball,
