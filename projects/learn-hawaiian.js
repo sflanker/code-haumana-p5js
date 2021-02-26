@@ -35,7 +35,7 @@ function learnToRead(p) {
     randomcolor = allColorsHI[randomcolor];
     // Kumu Paul said there were 8 objects,
     // but there were only seven 🤦‍♂️
-    var randomobj = allObjectsHI [Math.floor( p.random(0, 7)  )];
+    var randomobj = allObjectsHI[Math.floor( p.random(0, 7) )];
     
     console.log("we chose color: " + randomcolor + " and object: " + randomobj)
     

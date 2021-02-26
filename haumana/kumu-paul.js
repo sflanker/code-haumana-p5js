@@ -347,16 +347,11 @@ function mouse_waves(p) {
   };
 }
 
-
-import { jezzball } from './kumu-paul/jezzball.js';
-import { gameOfLife } from './kumu-paul/game-of-life.js';
-import { shaderStudio } from './kumu-paul/shader-studio.js';
-
 export var sketches = {
-  "Shader Studio":  shaderStudio,
+  "Shader Studio": import(`./kumu-paul/shader-studio.js?nonce=${Math.random()}`).then(module => module.shaderStudio).catch(err => console.log('Bad Shader Studio')),
   "Minecraft Skin Viewer": minecraftSkinViewer,
   "Random Testing": randomSketch,
-  Jezzball: jezzball,
-  "Conway's Game of Life": gameOfLife,
+  Jezzball: import('./kumu-paul/jezzball.js').then(module => module.jezzball),
+  "Conway's Game of Life": import('./kumu-paul/game-of-life.js').then(module => module.gameOfLife),
   "Mouse Waves": mouse_waves
 };

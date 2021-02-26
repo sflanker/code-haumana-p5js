@@ -166,7 +166,7 @@ export function jezzball(p) {
   function drawIntro() {
     p.cursor("default");
     p.noLoop();
-    p.fill("white");
+    p.fill("white"); 
     p.stroke("darkgray");
     p.strokeWeight(2);
     p.rect(p.width * 0.2, p.height * 0.2, p.width * 0.6, p.height * 0.6);
