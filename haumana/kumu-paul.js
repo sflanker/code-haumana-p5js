@@ -347,11 +347,20 @@ function mouse_waves(p) {
   };
 }
 
+function lazyLoadSketchModule(filename, name) {
+  return import(`./kumu-paul/${filename}?nonce=${Math.random()}`)
+    .then(module => module[name])
+    .catch(err => {
+      console.error(`Failed to load sketch ${name}`);
+      console.error(err);
+    });
+}
+
 export var sketches = {
-  "Shader Studio": import(`./kumu-paul/shader-studio.js?nonce=${Math.random()}`).then(module => module.shaderStudio).catch(err => console.log('Bad Shader Studio')),
+  "Shader Studio": lazyLoadSketchModule('shader-studio.js', 'shaderStudio'),
   "Minecraft Skin Viewer": minecraftSkinViewer,
   "Random Testing": randomSketch,
-  Jezzball: import('./kumu-paul/jezzball.js').then(module => module.jezzball),
-  "Conway's Game of Life": import('./kumu-paul/game-of-life.js').then(module => module.gameOfLife),
+  Jezzball: lazyLoadSketchModule('jezzball.js', 'jezzball'),
+  "Conway's Game of Life": lazyLoadSketchModule('game-of-life.js', 'gameOfLife'),
   "Mouse Waves": mouse_waves
 };

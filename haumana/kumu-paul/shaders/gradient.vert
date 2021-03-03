@@ -2,18 +2,29 @@
 precision mediump float;
 #endif
 
-attribute vec3 aPosition;
+// =====================================
+// Built in p5js uniforms and attributes
+// =====================================
 
-// Always include this to get the position of the pixel and map the shader correctly onto the shape
+uniform mat4 uModelViewMatrix;
+uniform mat4 uProjectionMatrix;
+
+attribute vec3 aPosition;    // Vertex position
+attribute vec2 aTexCoord;    // Vertex texture coordinate
+attribute vec3 aNormal;      // Vertex normal
+attribute vec4 aVertexColor; // Vertex color
+
+// =====================================
+
+varying vec3 vPosition;
+varying vec2 vTexCoord;
 
 void main() {
 
-  // Copy the position data into a vec4, adding 1.0 as the w parameter
-  vec4 positionVec4 = vec4(aPosition, 1.0);
+  // Store the vertex position for use in the fragment shader
+  vPosition = aPosition;
+  vTexCoord = aTexCoord;
 
-  // Scale to make the output fit the canvas
-  positionVec4.xy = positionVec4.xy * 2.0 - 1.0; 
-
-  // Send the vertex information on to the fragment shader
-  gl_Position = positionVec4;
+  // Set the vertex position without any change besides the view transformations
+  gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
 }
