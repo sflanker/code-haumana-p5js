@@ -98,7 +98,9 @@ function conditions(p) {
         p.fill('red');
       }
     } else if (x / rowWidth < 0.5) {
+      // ====================
       // Ili
+      // ====================
       if(i% 5==0){
         p.fill('blue');
       } else {
@@ -106,7 +108,9 @@ function conditions(p) {
         p.fill('white');
       }
     } else if (x / rowWidth < 0.75) {
+      // ===============================
       // Pili
+      // ===============================
       p.fill('green');
     } else if (x / rowWidth < 1.0) {
       // Jasyah

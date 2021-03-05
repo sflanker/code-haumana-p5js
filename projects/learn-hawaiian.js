@@ -76,20 +76,40 @@ function learnToRead(p) {
 
     var ix = 0;
     while (ix < colorImageNumbers.length) {
-      console.log(colorImageNumbers[ix]);
+      // TODO: for each of those values, check each value in objectImageNumbers
+      // and see if they are equal (==)
+      var ix2 = 0;
+      while (ix2 < objectImageNumbers.length) {
+        if (colorImageNumbers[ix]) {
+          // Now we can see the value contained in both colorImageNumbers and objectImageNumbers
+          console.log(colorImageNumbers[ix]);
+        }
+        ix2 = ix2 + 1;
+      }
+      
       ix = ix + 1;
-    }
+    } 
     // ********************
     // STEP 4. find eight other images
     // ********************
     
+    // create a variable to store our list of wrong answers, initialize it to an empty array (note: an empty array looks like this: [] )
+    
+    // Pick a random number from 0 to maximum 
+    // check if the number is equal to our "clue image number" (see "answerPosition" variable up top)
+    //  if they are equal, skip it
+    // other add it to an array (to do this, use the myArrayVariable.push(value) function)
+    // repeat these steps while the length of our array is less than 8
+    
     // ********************
-    // STEP 5. shuffle the images
+    // STEP 5. add the right answer and shuffle the images
     // ********************
 
     // ********************
     // STEP 6. remember the position of the answer (we will need it later, outside of this function)
     // ********************
+    
+    
   }
 }
 

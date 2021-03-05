@@ -362,5 +362,6 @@ export var sketches = {
   "Random Testing": randomSketch,
   Jezzball: lazyLoadSketchModule('jezzball.js', 'jezzball'),
   "Conway's Game of Life": lazyLoadSketchModule('game-of-life.js', 'gameOfLife'),
-  "Mouse Waves": mouse_waves
+  "Mouse Waves": mouse_waves,
+  "Sprite2Voxels": lazyLoadSketchModule('sprite-voxel.js', 'spriteVoxelSketch')
 };
