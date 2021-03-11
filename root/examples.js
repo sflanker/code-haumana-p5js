@@ -25,7 +25,7 @@ function basics(p) {
     // Draw the outline of a blue square on top of the red circle
     p.noFill();
     p.stroke("blue");
-    p.square(60, 60, 100);
+    p.square(200, 200, 50);
   };
 }
 

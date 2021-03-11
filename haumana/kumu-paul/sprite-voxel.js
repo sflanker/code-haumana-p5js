@@ -1,6 +1,6 @@
 export function spriteVoxelSketch(p) {
   const gl = WebGLRenderingContext;
-  const scale = 20;
+  const scale = 10;
   const density = 1;
   const [R, G, B, A] = [0, 1, 2, 3];
   const opacityThreshold = 100;
@@ -100,12 +100,8 @@ export function spriteVoxelSketch(p) {
       gl.TEXTURE_MIN_FILTER,
       gl.NEAREST
     );
-    //p.model(activeModel);
+    p.model(activeModel);
     
-    p.push();
-    p.translate(-100, -150);
-    p.model(pistonExtModel);
-    p.pop();
     //     p.fill('red');
     //     drawVoxelsFromSprite(
     //       spriteData.sprites['torch_north_top'],
@@ -139,9 +135,9 @@ export function spriteVoxelSketch(p) {
 
   // There are probably much more elegant ways to do this.
   function spriteToVoxelGeometry(top, side, front, bottom, back) {
-    
     bottom = bottom ?? top;
     back = back ?? front;
+    
     function checkVoxel(xoff, yoff, zoff) {
       return (
         xoff >= 0 &&
@@ -163,8 +159,9 @@ export function spriteVoxelSketch(p) {
       let prevSlice = [...new Array(front.w)].map(_ =>
         new Array(front.h).fill(null)
       );
-      const constructFrontOrBackFace = (slice, sprite, faceName, x, y, z) => {
-        modelListDebug.push(this);
+      
+      modelListDebug.push(this);
+      this.constructFrontOrBackFace = function(slice, sprite, faceName, x, y, z) {
         // if left, upper, or upper-left voxels share this face, re-use the vertices
         let quad = [];
         let left = x > 0 ? slice[x - 1][y] : null;
@@ -221,15 +218,14 @@ export function spriteVoxelSketch(p) {
         return quad;
       };
 
-      const constructTopOrBottomFace = (
+      this.constructTopOrBottomFace = function(
         slice,
         sprite,
         faceName,
         x,
         y,
         z,
-        yoff
-      ) => {
+        yoff) {
         yoff = yoff ?? 0;
         // Nomenclature is based on a top down perspective, so left is left, but "lower" is in the -z
         // If the left, lower, or lower left voxels share this face, re-use the vertices
@@ -299,7 +295,7 @@ export function spriteVoxelSketch(p) {
 
         return quad;
       };
-      const constructSideFace = (slice, sprite, faceName, x, y, z, xoff) => {
+      this.constructSideFace = function(slice, sprite, faceName, x, y, z, xoff) {
         xoff = xoff ?? 0;
 
         // Nomenclature is based on a left side perspective, so upper is upper (-y), but right is +z
@@ -376,7 +372,7 @@ export function spriteVoxelSketch(p) {
 
               if (prevSlice[x][y] == null) {
                 // if previous slice was null, draw front face
-                let quad = constructFrontOrBackFace(
+                let quad = this.constructFrontOrBackFace(
                   curSlice,
                   front,
                   "front",
@@ -393,7 +389,7 @@ export function spriteVoxelSketch(p) {
               // Maybe draw sides
               if (!checkVoxel(x - 1, y, z)) {
                 // left side
-                let quad = constructSideFace(
+                let quad = this.constructSideFace(
                   curSlice,
                   side,
                   "leftSide",
@@ -415,7 +411,7 @@ export function spriteVoxelSketch(p) {
               }
               if (!checkVoxel(x, y - 1, z)) {
                 // top side
-                let quad = constructTopOrBottomFace(
+                let quad = this.constructTopOrBottomFace(
                   curSlice,
                   top,
                   "top",
@@ -430,7 +426,7 @@ export function spriteVoxelSketch(p) {
               }
               if (!checkVoxel(x + 1, y, z)) {
                 // right side
-                let quad = constructSideFace(
+                let quad = this.constructSideFace(
                   curSlice,
                   side,
                   "rightSide",
@@ -446,7 +442,7 @@ export function spriteVoxelSketch(p) {
               }
               if (!checkVoxel(x, y + 1, z)) {
                 // bottom side
-                let quad = constructTopOrBottomFace(
+                let quad = this.constructTopOrBottomFace(
                   curSlice,
                   bottom,
                   "bottom",
@@ -465,7 +461,7 @@ export function spriteVoxelSketch(p) {
             } else if (prevSlice[x][y]) {
               // voxel empty, previous slice had a voxel, we need to draw a back face for that
 
-              let quad = constructFrontOrBackFace(
+              let quad = this.constructFrontOrBackFace(
                 prevSlice,
                 back,
                 "back",
@@ -493,7 +489,7 @@ export function spriteVoxelSketch(p) {
           if (prevSlice[x][y]) {
             // voxel empty, previous slice had a voxel, we need to draw a back face for that
 
-            let quad = constructFrontOrBackFace(
+            let quad = this.constructFrontOrBackFace(
               prevSlice,
               back,
               "back",
@@ -511,6 +507,9 @@ export function spriteVoxelSketch(p) {
     }
 
     let obj = new p5.Geometry(1, 1, constructGeometry);
+    // p5js caches models by unique gid (Geometry Id)
+    obj.gid = [top, side, front, bottom, back].map(f => [f.x, f.y, f.w, f.h].join(',')).join('|');
+    
     obj.computeNormals();
     return obj;
   }

@@ -1,31 +1,52 @@
 function learnToRead(p) {
+  let puzzleImageNumbers;
   let puzzleImages;
-  let answerPosition;
+  let answerNumber;
   let instruction;
+  
+  // These variables are declared here for debugging
+  let randomcolor;
+  let randomobj;
+  let colorImageNumbers;
+  let objectImageNumbers;
 
   p.setup = function() {
     p.createCanvas(p.windowWidth, p.windowHeight);
 
     p.background(50);
 
-    // resetPuzzle();
+    resetPuzzle();
   };
 
   p.draw = function() {
     p.background("white");
 
-    // For now we will reset the puzzle on every call to draw so that we can
-    // more easily test things.
-    resetPuzzle();
+    // DEBUG DISPLAY CODE
+    p.background("white");
+    p.fill("red");
+    p.textAlign(p.LEFT, p.TOP);
 
-    p.noLoop();
+    p.text(randomcolor, 10, 10);
+    p.text(randomobj, 10, 30);
+
+    // DEBUG DISPLAY CODE
+    p.text("[" + colorImageNumbers.join(", ") + "]", 10, 50);
+    p.text("[" + objectImageNumbers.join(", ") + "]", 10, 70);
+    // END DEBUG DISPLAY CODE
+    
+    //draws grid of images
+    for (let ix = 0; ix < 9; ix++) {
+      p.image(puzzleImages[ix], 200, ix * 55, 50, 50); //edit this code eventually me - Jasyah
+    }
+
+    //p.noLoop();
 
     // End of Draw function
   };
 
   p.doubleClicked = function() {
     // Double click the screen to reset the puzzle.
-    p.redraw();
+    resetPuzzle();
   };
 
   // Each puzzle consists of a grid of 9 images and a clue which is a
@@ -38,32 +59,20 @@ function learnToRead(p) {
     // We want randomcolor to have a value like "uliuli"
     // ********************
 
-    var randomcolor = Math.floor(p.random(0, 8));
+    randomcolor = Math.floor(p.random(0, 8));
     randomcolor = allColorsHI[randomcolor];
     // Kumu Paul said there were 8 objects,
     // but there were only seven 🤦‍♂️
-    var randomobj = allObjectsHI[Math.floor(p.random(0, 7))];
+    randomobj = allObjectsHI[Math.floor(p.random(0, 7))];
 
     console.log("we chose color: " + randomcolor + " and object: " + randomobj);
 
-    // DEBUG DISPLAY CODE
-    p.background("white");
-    p.fill("red");
-    p.textAlign(p.LEFT, p.TOP);
-
-    p.text(randomcolor, 10, 10);
-    p.text(randomobj, 10, 30);
-    // END DEBUG DISPLAY CODE
 
     // ********************
     // STEP 2. Get the list of images that match the color and the object
     // ********************
-    let colorImageNumbers = imagesByColor[randomcolor];
-    let objectImageNumbers = imagesByObject[randomobj];
-
-    // DEBUG DISPLAY CODE
-    p.text("[" + colorImageNumbers.join(", ") + "]", 10, 50);
-    p.text("[" + objectImageNumbers.join(", ") + "]", 10, 70);
+    colorImageNumbers = imagesByColor[randomcolor];
+    objectImageNumbers = imagesByObject[randomobj];
 
     // ********************
     // STEP 3. find the image that matches both (color and object)
@@ -76,45 +85,78 @@ function learnToRead(p) {
 
     var ix = 0;
     while (ix < colorImageNumbers.length) {
-      // TODO: for each of those values, check each value in objectImageNumbers
+      // For each of those values, check each value in objectImageNumbers
       // and see if they are equal (==)
       var ix2 = 0;
       while (ix2 < objectImageNumbers.length) {
-        if (colorImageNumbers[ix]) {
+        if (colorImageNumbers[ix] == objectImageNumbers[ix2]) {
           // Now we can see the value contained in both colorImageNumbers and objectImageNumbers
-          console.log(colorImageNumbers[ix]);
+          console.log(
+            "is " +
+              colorImageNumbers[ix] +
+              " == " +
+              objectImageNumbers[ix2] +
+              " ?"
+          );
+          answerNumber = colorImageNumbers[ix];
         }
         ix2 = ix2 + 1;
       }
-      
+
       ix = ix + 1;
-    } 
+    }
     // ********************
     // STEP 4. find eight other images
     // ********************
-    
+
     // create a variable to store our list of wrong answers, initialize it to an empty array (note: an empty array looks like this: [] )
-    
-    // Pick a random number from 0 to maximum 
-    // check if the number is equal to our "clue image number" (see "answerPosition" variable up top)
+
+    puzzleImageNumbers = [];
+
+    // Pick a random number from 0 to maximum
+    // check if the number is equal to our "clue image number" (see "answerNumber" variable up top)
     //  if they are equal, skip it
     // other add it to an array (to do this, use the myArrayVariable.push(value) function)
     // repeat these steps while the length of our array is less than 8
-    
+
+    while (puzzleImageNumbers.length < 8) {
+      var ix3 = Math.floor(p.random(0, allImageNames.length));
+      if (ix3 == answerNumber) {
+        //skip
+      } else {
+        puzzleImageNumbers.push(ix3);
+      }
+    }
+
     // ********************
     // STEP 5. add the right answer and shuffle the images
     // ********************
 
+    puzzleImageNumbers.push(answerNumber);
+
     // ********************
-    // STEP 6. remember the position of the answer (we will need it later, outside of this function)
+    // STEP 6. shuffle and render!!!
     // ********************
     
-    
+    // TODO
+
+    // ********************
+    // STEP 7. Call loadImage for the image path: "assets/image-file-name.png" of each image number in puzzleImageNumbers, and store it in puzzleImages
+    // ********************
+
+    puzzleImages = [];
+
+    for (let ix4 = 0; ix4 < 9; ix4++) {
+      console.log(puzzleImageNumbers[ix4]);
+      puzzleImages.push(
+        p.loadImage("/assets/" + allImageNames[puzzleImageNumbers[ix4]])
+      );
+    }
   }
 }
 
 let imagesByColor = {
-  //Jasyah is doing from here...
+  //Jasyah is...
   ʻulaʻula: [35, 36, 37, 38, 39, 40, 41],
   ʻālani: [21, 22, 23, 24, 25, 26, 27],
   //...to here^^^

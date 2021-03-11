@@ -1,5 +1,5 @@
 /*******************
- * This file belongs to Kumu Paul
+ * This file belongs to Kumu Paul!
  *******************/
 function randomSketch(p) {
   let gameSize;
