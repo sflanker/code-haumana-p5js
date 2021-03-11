@@ -3,7 +3,7 @@ function learnToRead(p) {
   let puzzleImages;
   let answerNumber;
   let instruction;
-  
+
   // These variables are declared here for debugging
   let randomcolor;
   let randomobj;
@@ -20,23 +20,27 @@ function learnToRead(p) {
 
   p.draw = function() {
     p.background("white");
-
-    // DEBUG DISPLAY CODE
-    p.background("white");
-    p.fill("red");
-    p.textAlign(p.LEFT, p.TOP);
-
-    p.text(randomcolor, 10, 10);
-    p.text(randomobj, 10, 30);
-
-    // DEBUG DISPLAY CODE
-    p.text("[" + colorImageNumbers.join(", ") + "]", 10, 50);
-    p.text("[" + objectImageNumbers.join(", ") + "]", 10, 70);
-    // END DEBUG DISPLAY CODE
     
+    let column = 1;
+    let row = 0;
     //draws grid of images
     for (let ix = 0; ix < 9; ix++) {
-      p.image(puzzleImages[ix], 200, ix * 55, 50, 50); //edit this code eventually me - Jasyah
+      row = row + 1;
+
+      // check if we reached the bottom of the grid
+      if (ix == 3) {
+        column = column + 1;
+        row = 1;
+      } else {
+        if (ix == 6) {
+          column = column + 1;
+          row = 1;
+        } else {
+          //skip
+        }
+      }
+      
+      p.image(puzzleImages[ix], column * 110, row * 110, 100, 100); //edit this code eventually me - Jasyah
     }
 
     //p.noLoop();
@@ -67,13 +71,18 @@ function learnToRead(p) {
 
     console.log("we chose color: " + randomcolor + " and object: " + randomobj);
 
-
     // ********************
     // STEP 2. Get the list of images that match the color and the object
     // ********************
     colorImageNumbers = imagesByColor[randomcolor];
     objectImageNumbers = imagesByObject[randomobj];
 
+
+    // DEBUG DISPLAY CODE (Moved to console)
+    console.log("[" + colorImageNumbers.join(", ") + "]", 10, 50);
+    console.log("[" + objectImageNumbers.join(", ") + "]", 10, 70);
+    // END DEBUG DISPLAY CODE
+    
     // ********************
     // STEP 3. find the image that matches both (color and object)
     // ********************
@@ -137,7 +146,7 @@ function learnToRead(p) {
     // ********************
     // STEP 6. shuffle and render!!!
     // ********************
-    
+
     // TODO
 
     // ********************
@@ -147,7 +156,7 @@ function learnToRead(p) {
     puzzleImages = [];
 
     for (let ix4 = 0; ix4 < 9; ix4++) {
-      console.log(puzzleImageNumbers[ix4]);
+      console.log('option: ' + puzzleImageNumbers[ix4]);
       puzzleImages.push(
         p.loadImage("/assets/" + allImageNames[puzzleImageNumbers[ix4]])
       );
